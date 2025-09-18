@@ -1,54 +1,333 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <title>Cortexa - Asistente Psicológico</title>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Cortexa – Asistente | Neuropsicóloga Rodríguez</title>
+  <link rel="icon" href="img/cerebro.png" type="image/png"/>
+  <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;500;700;800;900&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+
   <style>
-    body { font-family: Arial, sans-serif; background: #f9fafb; margin: 0; padding: 20px; }
-    h1 { text-align: center; color: #2c3e50; }
-    #chat { max-width: 600px; margin: 20px auto; background: white; padding: 20px; border-radius: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.1);}
-    textarea { width: 100%; padding: 10px; border-radius: 5px; border: 1px solid #ccc; }
-    button { margin-top: 10px; padding: 10px 20px; background: #2c3e50; color: white; border: none; border-radius: 5px; cursor: pointer; }
-    button:hover { background: #34495e; }
-    .msg { margin: 10px 0; }
-    .user { text-align: right; color: #2980b9; }
-    .bot { text-align: left; color: #27ae60; }
+    :root{
+      --blue-900:#002b5c;
+      --blue-800:#003366;
+      --blue-700:#004a99;
+      --blue-600:#005bbf;
+      --blue-500:#2f6cb8;
+      --sky-100:#e6f2ff;
+      --white:#ffffff;
+      --shadow:0 14px 30px rgba(0,0,0,.12);
+      --radius:18px;
+      --bot:#e9f2ff;
+      --user:#f3f7ff;
+      --accent:#66aaff;
+    }
+    *{box-sizing:border-box}
+    body{margin:0;font-family:'Raleway',sans-serif;background:linear-gradient(135deg,var(--sky-100),#fff);color:var(--blue-800);overflow-x:hidden}
+    a{color:inherit}
+
+    /* ===== HEADER ===== */
+    header{
+      position:sticky;top:0;z-index:1000;
+      background:linear-gradient(90deg,var(--blue-900),var(--blue-700));
+      color:#fff;padding:16px 22px;box-shadow:var(--shadow);
+    }
+    .topbar{
+      max-width:1200px;margin:auto;display:flex;align-items:center;gap:14px;justify-content:space-between;
+    }
+    .brand{display:flex;align-items:center;gap:10px}
+    .brand h1{font-size:28px;margin:0;letter-spacing:.6px}
+
+    .quick{display:flex;gap:10px;opacity:.95}
+    .quick a.social{
+      display:inline-grid;place-items:center;width:40px;height:40px;border-radius:999px;
+      background:rgba(255,255,255,.14);border:1.5px solid rgba(255,255,255,.28);color:#fff;text-decoration:none;
+      box-shadow:0 8px 16px rgba(0,0,0,.12);transition:.25s;font-size:18px
+    }
+    .quick a.social:hover{background:#66b3ff;color:#002244}
+
+    /* ===== NAV ===== */
+    nav{background:var(--blue-800);position:relative;}
+    .navlinks{
+      max-width:1200px;margin:auto;display:flex;justify-content:center;gap:28px;padding:10px 0;flex-wrap:wrap;
+    }
+    .navlinks a{
+      color:#fff;text-decoration:none;background:rgba(255,255,255,.12);
+      border:1.5px solid rgba(255,255,255,.28);border-radius:999px;padding:12px 20px;font-weight:700;font-size:1.05rem;transition:.3s;
+      display:inline-flex;align-items:center;gap:8px;
+    }
+    .navlinks a:hover{background:#66b3ff;color:#002244}
+    @media (min-width:768px){.navlinks a{font-size:1.15rem;padding:14px 24px}}
+
+    /* ===== HERO COVER ===== */
+    .cover{
+      position:relative;min-height:42vh;display:grid;place-items:center;color:#fff;text-align:center;
+    }
+    .cover::before{
+      content:"";position:absolute;inset:0;
+      background:url('img/fondoazul.jpg') center/cover no-repeat;filter:brightness(.85);
+    }
+    .cover::after{
+      content:"";position:absolute; inset:0;
+      background:linear-gradient(180deg,rgba(0,29,61,.38) 0%,rgba(0,51,102,.78) 60%,rgba(0,51,102,.90) 100%);
+    }
+    .cover-inner{position:relative;z-index:1;padding:28px}
+    .cover h2{margin:.2rem 0 .6rem;font-size:42px}
+    .lead{opacity:.95}
+
+    /* ===== CHAT WRAP ===== */
+    .container{max-width:1200px;margin:auto;padding:38px 16px}
+    .chat-wrap{
+      display:grid;grid-template-columns: 1fr 360px; gap:24px; align-items:flex-start;
+    }
+    @media (max-width:980px){ .chat-wrap{grid-template-columns:1fr} }
+
+    .chat-card{
+      position:relative;background:#fff;border-radius:28px;padding:0;overflow:hidden;box-shadow:var(--shadow);
+      border:1px solid #e6f2ff;
+    }
+    .chat-header{
+      padding:18px 20px;background:linear-gradient(90deg,var(--blue-900),var(--blue-700));color:#fff;
+      display:flex;align-items:center;gap:12px;
+    }
+    .bot-ava{
+      width:40px;height:40px;border-radius:50%;display:grid;place-items:center;background:#fff;color:var(--blue-800);font-weight:900;
+      box-shadow:0 8px 18px rgba(0,0,0,.15);
+    }
+    .chat-title{margin:0;font-size:20px}
+    .chat-sub{font-size:13px;opacity:.9}
+
+    .chat-body{
+      padding:18px;min-height:380px;max-height:58vh;overflow:auto;background:
+        radial-gradient(120px 120px at 8% 16%, #cfe3ff33, transparent 60%),
+        radial-gradient(120px 120px at 92% 86%, #b9d8ff33, transparent 60%),
+        #ffffff;
+    }
+    .msg{display:flex;gap:10px;margin:12px 0}
+    .msg.bot .bubble{background:var(--bot);border:1px solid #d9e8ff}
+    .msg.user{justify-content:flex-end}
+    .msg.user .bubble{background:var(--user);border:1px solid #e7edff}
+    .bubble{
+      max-width:min(720px,90%);padding:12px 14px;border-radius:16px 16px 16px 6px;
+      box-shadow:0 6px 16px rgba(0,0,0,.06);line-height:1.55;color:#24415f;
+    }
+    .msg.user .bubble{border-radius:16px 16px 6px 16px}
+    .msg small{display:block;margin-top:6px;color:#6b86a8}
+    .msg .ava{
+      width:32px;height:32px;border-radius:50%;display:grid;place-items:center;background:#e6f2ff;color:var(--blue-700);font-weight:900;flex:0 0 32px
+    }
+
+    .typing{display:inline-flex;gap:6px;align-items:center}
+    .dot{width:7px;height:7px;border-radius:50%;background:#8fb9ff;animation:blink 1.4s infinite}
+    .dot:nth-child(2){animation-delay:.2s}.dot:nth-child(3){animation-delay:.4s}
+    @keyframes blink{0%,80%,100%{opacity:.2}40%{opacity:1}}
+
+    .chat-input{
+      display:flex;gap:10px;padding:14px;background:#f7fbff;border-top:1px solid #e6f2ff
+    }
+    textarea{
+      resize:none;flex:1;min-height:52px;max-height:140px;padding:12px 14px;border-radius:14px;border:1px solid #dce9ff;
+      font-family:inherit;font-size:16px;outline:none;box-shadow:0 6px 12px rgba(0,0,0,.04) inset;
+    }
+    .btn-send{
+      min-width:120px;border:none;border-radius:999px;background:var(--accent);color:#002244;
+      font-weight:800;padding:14px 18px;cursor:pointer;box-shadow:0 10px 24px rgba(0,0,0,.14)
+    }
+    .btn-send:disabled{opacity:.6;cursor:default}
+
+    /* SIDE HELP */
+    .side{
+      background:#fff;border-radius:28px;box-shadow:var(--shadow);border:1px solid #e6f2ff;padding:18px
+    }
+    .side h3{margin:6px 0 12px;color:var(--blue-900)}
+    .cta-mini{display:flex;gap:10px;flex-wrap:wrap;margin:10px 0 2px}
+    .cta-mini a{
+      text-decoration:none;border-radius:999px;padding:10px 14px;font-weight:800;display:inline-flex;align-items:center;gap:8px;
+      border:1.5px solid #cfe2ff;background:#eef6ff;color:#004a99
+    }
+    .cta-mini a.primary{background:#66aaff;color:#002244}
   </style>
 </head>
 <body>
-  <h1>🤖 Cortexa - Asistente Psicológico</h1>
-  <div id="chat">
-    <div id="messages"></div>
-    <textarea id="question" placeholder="Escribe tu pregunta aquí..."></textarea>
-    <button onclick="sendQuestion()">Enviar</button>
-  </div>
+  <!-- HEADER -->
+  <header>
+    <div class="topbar">
+      <div class="brand"><h1>Neuropsicóloga Rodríguez</h1></div>
+      <div class="quick">
+        <a class="social" href="https://www.facebook.com/share/1Av2BgPo17/" target="_blank" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+        <a class="social" href="https://www.instagram.com/neuropsicologa_rodriguez_?igsh=NWZnNnphZTIzNWN6" target="_blank" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+      </div>
+    </div>
+  </header>
+
+  <!-- NAV -->
+  <nav>
+    <div class="navlinks">
+      <a href="index.html"><i class="fas fa-home"></i> Inicio</a>
+      <a href="sobremi.html"><i class="fas fa-user"></i> Sobre Mí</a>
+      <a href="reservarcita.html"><i class="fas fa-calendar-check"></i> Reservar Cita</a>
+    </div>
+  </nav>
+
+  <!-- COVER -->
+  <section class="cover">
+    <div class="cover-inner">
+      <h2 style="margin-bottom:.2rem">Cortexa – Asistente Psicológico</h2>
+      <p class="lead">Un espacio cercano, cálido y confidencial para hablar de lo que necesites.</p>
+    </div>
+  </section>
+
+  <!-- CHAT -->
+  <section class="container">
+    <div class="chat-wrap">
+      <!-- Panel principal -->
+      <article class="chat-card" aria-live="polite">
+        <div class="chat-header">
+          <div class="bot-ava">🤖</div>
+          <div>
+            <h3 class="chat-title" style="margin:0">Cortexa</h3>
+            <div class="chat-sub">Asistente de la neuropsicóloga Rodríguez</div>
+          </div>
+        </div>
+
+        <div id="chat" class="chat-body" role="log" aria-label="Conversación"></div>
+
+        <div class="chat-input">
+          <textarea id="prompt" placeholder="Escribe tu pregunta aquí…" rows="2"></textarea>
+          <button id="send" class="btn-send"><i class="fa-solid fa-paper-plane"></i> Enviar</button>
+        </div>
+      </article>
+
+      <!-- Lateral de ayuda -->
+      <aside class="side">
+        <h3>¿Necesitas una cita?</h3>
+        <p style="margin-top:0">Cortexa puede orientarte, pero la atención profesional es con la Neuropsicóloga Rodríguez.</p>
+        <div class="cta-mini">
+          <a class="primary" href="reservarcita.html"><i class="fas fa-calendar-check"></i> Reservar cita</a>
+          <a href="https://wa.me/51943748260" target="_blank" rel="noopener"><i class="fab fa-whatsapp"></i> WhatsApp</a>
+        </div>
+
+        <h3 style="margin-top:18px">Temas frecuentes</h3>
+        <ul style="margin:6px 0 0 18px;color:#24415f;line-height:1.6">
+          <li>Ansiedad, estrés, ánimo bajo y duelo</li>
+          <li>Funciones ejecutivas, TDAH, aprendizaje</li>
+          <li>Familia, pareja y convivencia</li>
+          <li>Evaluación y rehabilitación neuropsicológica</li>
+        </ul>
+      </aside>
+    </div>
+  </section>
 
   <script>
-    async function sendQuestion() {
-      const question = document.getElementById("question").value;
-      if (!question) return;
+    // ======= CONFIG =======
+    const BACKEND_URL = "https://cortexa-backend.cortexa.workers.dev"; // cambia si usas otro dominio
+    const CHAT = document.getElementById("chat");
+    const PROMPT = document.getElementById("prompt");
+    const SEND = document.getElementById("send");
 
-      // Mostrar mensaje del usuario
-      const messages = document.getElementById("messages");
-      messages.innerHTML += `<div class="msg user"><b>Tú:</b> ${question}</div>`;
+    // ======= UI helpers =======
+    function el(html){ const t=document.createElement("template"); t.innerHTML=html.trim(); return t.content.firstChild; }
+    function scrollBottom(){ CHAT.scrollTop = CHAT.scrollHeight; }
 
-      // Llamada al backend
-      try {
-        const res = await fetch("https://cortexa-backend.cortexa.workers.dev", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ question })
-        });
-
-        const data = await res.json();
-        messages.innerHTML += `<div class="msg bot"><b>Cortexa:</b> ${data.answer || data.error}</div>`;
-      } catch (err) {
-        messages.innerHTML += `<div class="msg bot"><b>Error:</b> ${err.message}</div>`;
-      }
-
-      // limpiar textarea
-      document.getElementById("question").value = "";
+    function addBot(text){
+      const node = el(`
+        <div class="msg bot">
+          <div class="ava">🤖</div>
+          <div>
+            <div class="bubble">${sanitize(text)}</div>
+          </div>
+        </div>`);
+      CHAT.appendChild(node); scrollBottom();
     }
+
+    function addUser(text){
+      const node = el(`
+        <div class="msg user">
+          <div>
+            <div class="bubble">${sanitize(text)}</div>
+          </div>
+        </div>`);
+      CHAT.appendChild(node); scrollBottom();
+    }
+
+    let typingNode = null;
+    function showTyping(){
+      typingNode = el(`
+        <div class="msg bot" id="typing">
+          <div class="ava">🤖</div>
+          <div class="bubble">
+            <span class="typing"><span class="dot"></span><span class="dot"></span><span class="dot"></span></span>
+          </div>
+        </div>`);
+      CHAT.appendChild(typingNode); scrollBottom();
+    }
+    function hideTyping(){
+      if(typingNode && typingNode.parentNode){ typingNode.parentNode.removeChild(typingNode); typingNode=null; }
+    }
+
+    function sanitize(text){
+      return String(text)
+        .replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;")
+        .replace(/\n/g,"<br>");
+    }
+
+    function setBusy(b){
+      SEND.disabled = b; PROMPT.disabled = b;
+    }
+
+    // ======= Networking =======
+    async function askBackend(payload){
+      const res = await fetch(BACKEND_URL, {
+        method:"POST",
+        headers:{ "Content-Type":"application/json" },
+        body: JSON.stringify(payload)
+      });
+      if(!res.ok) throw new Error(`HTTP ${res.status}`);
+      return res.json();
+    }
+
+    // ======= Send flow =======
+    async function handleSend(){
+      const q = PROMPT.value.trim();
+      if(!q) return;
+      addUser(q);
+      PROMPT.value = "";
+      setBusy(true);
+      showTyping();
+      try{
+        const { answer, error } = await askBackend({ question: q });
+        hideTyping();
+        if(error) addBot("⚠️ " + error);
+        else addBot(answer || "No pude generar una respuesta ahora.");
+      }catch(e){
+        hideTyping();
+        addBot("⚠️ Error de conexión. Intenta de nuevo.");
+      }finally{
+        setBusy(false);
+        PROMPT.focus();
+      }
+    }
+
+    SEND.addEventListener("click", handleSend);
+    PROMPT.addEventListener("keydown", (e)=>{
+      if(e.key==="Enter" && !e.shiftKey){ e.preventDefault(); handleSend(); }
+    });
+
+    // ======= Initial greeting from backend =======
+    (async function init(){
+      addBot("Conectando con Cortexa…");
+      try{
+        const { answer } = await askBackend({ first: true });
+        // Reemplaza el “Conectando…” por el saludo real
+        CHAT.innerHTML = "";
+        addBot(answer || "Hola, soy Cortexa, asistente de la neuropsicóloga Rodríguez. ¿Qué te gustaría hablar hoy?");
+      }catch{
+        CHAT.innerHTML = "";
+        addBot("Hola, soy Cortexa, asistente de la neuropsicóloga Rodríguez. ¿Qué te gustaría hablar hoy?");
+      }
+      PROMPT.focus();
+    })();
   </script>
 </body>
 </html>
