@@ -60,9 +60,9 @@
     .navlinks a:hover{background:#66b3ff;color:#002244}
     @media (min-width:768px){.navlinks a{font-size:1.15rem;padding:14px 24px}}
 
-    /* ===== HERO COVER ===== */
+    /* ===== COVER ===== */
     .cover{
-      position:relative;min-height:42vh;display:grid;place-items:center;color:#fff;text-align:center;
+      position:relative;min-height:32vh;display:grid;place-items:center;color:#fff;text-align:center;
     }
     .cover::before{
       content:"";position:absolute;inset:0;
@@ -84,7 +84,7 @@
     @media (max-width:980px){ .chat-wrap{grid-template-columns:1fr} }
 
     .chat-card{
-      position:relative;background:#fff;border-radius:28px;padding:0;overflow:hidden;box-shadow:var(--shadow);
+      position:relative;background:#fff;border-radius:28px;overflow:hidden;box-shadow:var(--shadow);
       border:1px solid #e6f2ff;
     }
     .chat-header{
@@ -113,7 +113,6 @@
       box-shadow:0 6px 16px rgba(0,0,0,.06);line-height:1.55;color:#24415f;
     }
     .msg.user .bubble{border-radius:16px 16px 6px 16px}
-    .msg small{display:block;margin-top:6px;color:#6b86a8}
     .msg .ava{
       width:32px;height:32px;border-radius:50%;display:grid;place-items:center;background:#e6f2ff;color:var(--blue-700);font-weight:900;flex:0 0 32px
     }
@@ -244,9 +243,7 @@
     function addUser(text){
       const node = el(`
         <div class="msg user">
-          <div>
-            <div class="bubble">${sanitize(text)}</div>
-          </div>
+          <div><div class="bubble">${sanitize(text)}</div></div>
         </div>`);
       CHAT.appendChild(node); scrollBottom();
     }
@@ -314,20 +311,10 @@
       if(e.key==="Enter" && !e.shiftKey){ e.preventDefault(); handleSend(); }
     });
 
-    // ======= Initial greeting from backend =======
-    (async function init(){
-      addBot("Conectando con Cortexa…");
-      try{
-        const { answer } = await askBackend({ first: true });
-        // Reemplaza el “Conectando…” por el saludo real
-        CHAT.innerHTML = "";
-        addBot(answer || "Hola, soy Cortexa, asistente de la neuropsicóloga Rodríguez. ¿Qué te gustaría hablar hoy?");
-      }catch{
-        CHAT.innerHTML = "";
-        addBot("Hola, soy Cortexa, asistente de la neuropsicóloga Rodríguez. ¿Qué te gustaría hablar hoy?");
-      }
-      PROMPT.focus();
-    })();
+    // ======= Importante: SIN saludo automático =======
+    // No pintamos ningún mensaje inicial aquí.
+    // Si quieres un saludo al entrar, que lo retorne el backend
+    // cuando detecte primera interacción.
   </script>
 </body>
 </html>
