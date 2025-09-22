@@ -19,157 +19,154 @@
 
   <style>
     :root{
-      /* Paleta (igual azul/blanco con acentos sutiles) */
-      --blue-900:#002b5c; /* cabecera */
-      --blue-800:#003366; /* nav */
-      --blue-700:#004a99; /* énfasis */
-      --blue-600:#005bbf; 
-      --blue-500:#2f6cb8;
-      --sky-050:#f5f9ff; 
-      --sky-100:#eaf3ff;
-      --white:#ffffff;
-      --bot:#eff6ff;
-      --user:#f7fbff;
-      --accent:#66aaff;
-      --ink:#223a59;
-      --muted:#5f7aa1;
-      /* Efectos */
-      --radius:20px;
-      --shadow-lg:0 18px 50px rgba(0,0,0,.14);
-      --shadow-md:0 12px 28px rgba(0,0,0,.10);
-      --glass:rgba(255,255,255,.72);
+      --blue-900:#002b5c; --blue-800:#003366; --blue-700:#004a99; --blue-600:#005bbf; --blue-500:#2f6cb8;
+      --sky-050:#f5f9ff; --sky-100:#eaf3ff; --white:#ffffff;
+      --accent:#66aaff; --ink:#223a59; --muted:#5f7aa1;
+      --ok:#10b981;
+      --shadow-lg:0 18px 50px rgba(0,0,0,.14); --shadow-md:0 12px 28px rgba(0,0,0,.10);
       --ring:0 0 0 3px #66aaff44;
     }
     *{box-sizing:border-box}
     html,body{height:100%}
-    body{margin:0;font-family:'Raleway',sans-serif;background:linear-gradient(135deg,var(--sky-050),#fff);color:var(--ink)}
+    body{
+      margin:0;font-family:'Raleway',sans-serif;background:linear-gradient(135deg,var(--sky-050),#fff);color:var(--ink);
+      /* números rectos y parejos en todo el sitio */
+      font-variant-numeric: tabular-nums lining-nums;
+      font-feature-settings: "tnum" 1, "lnum" 1, "liga" 0;
+      -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility;
+    }
     a{color:inherit}
 
-    /* ====== HEADER (igual) ====== */
-    header{position:sticky;top:0;z-index:1000;background:linear-gradient(90deg,var(--blue-900),var(--blue-700));color:#fff;padding:16px 22px;box-shadow:var(--shadow-md)}
+    /* HEADER */
+    header{position:sticky;top:0;z-index:1000;background:linear-gradient(90deg,var(--blue-900),var(--blue-700));color:#fff;padding:14px 20px;box-shadow:var(--shadow-md)}
     .topbar{max-width:1200px;margin:auto;display:flex;align-items:center;gap:14px;justify-content:space-between}
-    .brand{display:flex;align-items:center;gap:10px}
-    .brand h1{font-size:28px;margin:0;letter-spacing:.6px}
+    .brand h1{font-size:26px;margin:0;letter-spacing:.6px}
     .quick{display:flex;gap:10px;opacity:.95}
-    .quick a.social{display:inline-grid;place-items:center;width:40px;height:40px;border-radius:999px;background:rgba(255,255,255,.14);border:1.5px solid rgba(255,255,255,.28);color:#fff;text-decoration:none;box-shadow:0 8px 16px rgba(0,0,0,.12);transition:.25s;font-size:18px}
+    .quick a.social{display:inline-grid;place-items:center;width:36px;height:36px;border-radius:999px;background:rgba(255,255,255,.14);border:1.5px solid rgba(255,255,255,.28);color:#fff;text-decoration:none;transition:.25s;font-size:16px}
     .quick a.social:hover{background:#66b3ff;color:#002244}
 
-    /* ====== NAV (igual) ====== */
+    /* NAV */
     nav{background:var(--blue-800)}
-    .navlinks{max-width:1200px;margin:auto;display:flex;justify-content:center;gap:28px;padding:10px 0;flex-wrap:wrap}
-    .navlinks a{color:#fff;text-decoration:none;background:rgba(255,255,255,.12);border:1.5px solid rgba(255,255,255,.28);border-radius:999px;padding:12px 20px;font-weight:800;font-size:1.05rem;transition:.3s;display:inline-flex;align-items:center;gap:8px}
+    .navlinks{max-width:1200px;margin:auto;display:flex;justify-content:center;gap:18px;padding:8px 0;flex-wrap:wrap}
+    .navlinks a{color:#fff;text-decoration:none;background:rgba(255,255,255,.12);border:1.5px solid rgba(255,255,255,.28);border-radius:999px;padding:10px 16px;font-weight:800;font-size:.98rem;transition:.3s;display:inline-flex;align-items:center;gap:8px}
     .navlinks a:hover{background:#66b3ff;color:#002244}
-    @media (min-width:768px){.navlinks a{font-size:1.12rem;padding:14px 24px}}
 
-    /* ====== COVER (ligero pulido) ====== */
-    .cover{position:relative;min-height:30vh;display:grid;place-items:center;color:#fff;text-align:center}
+    /* COVER */
+    .cover{position:relative;min-height:24vh;display:grid;place-items:center;color:#fff;text-align:center}
     .cover::before{content:"";position:absolute;inset:0;background:url('img/fondoazul.jpg') center/cover no-repeat;filter:brightness(.9)}
-    .cover::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,29,61,.38) 0%,rgba(0,51,102,.78) 60%,rgba(0,51,102,.90) 100%)}
-    .cover-inner{position:relative;z-index:1;padding:28px}
-    .cover h2{margin:.2rem 0 .6rem;font-size:42px}
-    .lead{opacity:.95}
+    .cover::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,29,61,.38) 0%,rgba(0,51,102,.78) 60%,rgba(0,51,102,.92) 100%)}
+    .cover-inner{position:relative;z-index:1;padding:20px}
+    .hero-ava{
+      width:116px;height:116px;border-radius:50%;object-fit:cover;
+      background:#fff; border:3px solid #ffffffcc;
+      box-shadow:0 14px 36px rgba(0,0,0,.25), 0 0 0 6px rgba(255,255,255,.12);
+      margin:6px auto 10px; display:block;
+    }
+    .cover h2{margin:.1rem 0 .35rem;font-size:36px}
+    .lead{opacity:.95;font-size:15px;margin:0}
+    .on-actions{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-top:12px}
+    .btn{border:none;border-radius:999px;padding:10px 16px;font-weight:900;cursor:pointer;display:inline-flex;align-items:center;gap:8px;font-size:.95rem}
+    .btn.primary{background:linear-gradient(90deg,var(--blue-700),var(--accent));color:#fff;box-shadow:0 8px 18px rgba(0,0,0,.14)}
+    .btn.ghost{background:#f1f6ff;border:1.5px solid #d7e7ff;color:#0c3a6b}
+    .pill{display:inline-flex;align-items:center;gap:8px;background:#eef6ff;border:1.5px solid #cfe2ff;color:#113a6e;border-radius:999px;padding:8px 12px;font-weight:800;font-size:.9rem}
 
-    /* ====== LAYOUT ====== */
-    .container{max-width:1200px;margin:auto;padding:38px 16px}
-    .chat-wrap{display:grid;grid-template-columns:1fr 360px;gap:24px;align-items:start}
-    @media (max-width:980px){.chat-wrap{grid-template-columns:1fr}}
+    /* LAYOUT */
+    .container{max-width:1180px;margin:auto;padding:28px 14px}
+    .chat-wrap{display:grid;grid-template-columns:1.7fr .95fr;gap:18px;align-items:start}
+    @media (max-width:1100px){.chat-wrap{grid-template-columns:1fr}}
 
-    /* ====== CHAT CARD (futurista minimal) ====== */
-    .chat-card{position:relative;border-radius:28px;overflow:hidden;box-shadow:var(--shadow-lg);border:1px solid #e6f2ff;background:linear-gradient(180deg,#ffffffcc,#ffffff99);backdrop-filter:blur(8px)}
-    .chat-header{padding:18px 20px;background:linear-gradient(90deg,var(--blue-900),var(--blue-700));color:#fff;display:flex;align-items:center;gap:12px}
-    .bot-ava{width:42px;height:42px;border-radius:50%;display:grid;place-items:center;background:#fff;color:var(--blue-800);font-weight:900;box-shadow:0 8px 18px rgba(0,0,0,.15)}
-    .chat-title{margin:0;font-size:20px}
-    .chat-sub{font-size:13px;opacity:.9}
+    /* CHAT CARD */
+    .chat-card{border-radius:22px;overflow:hidden;box-shadow:var(--shadow-lg);border:1px solid #e6f2ff;background:linear-gradient(180deg,#ffffffcc,#ffffff99);backdrop-filter:blur(8px)}
+    .chat-header{padding:12px 16px;background:linear-gradient(90deg,var(--blue-900),var(--blue-700));color:#fff;display:flex;align-items:center;gap:10px}
+    .bot-ava{width:40px;height:40px;border-radius:50%;
+      background:#fff url('cortexa.jpg') center/cover no-repeat;
+      box-shadow:0 8px 18px rgba(0,0,0,.15);flex:0 0 40px}
+    .chat-title{margin:0;font-size:18px}
+    .chat-sub{font-size:12px;opacity:.9}
+    .chat-head-row{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+    .online-badge{
+      display:inline-flex;align-items:center;gap:6px;
+      background:#e7fbef;border:1.5px solid #b7f1cd;color:#0f5132;
+      border-radius:999px;padding:3px 8px;font-weight:800;font-size:.78rem
+    }
+    .online-badge .status-dot{width:8px;height:8px;border-radius:50%;background:var(--ok);box-shadow:0 0 0 3px #10b98133}
 
+    /* Chat SIN scroll interno */
     .chat-body{
-      padding:18px;
-      min-height:420px;
-      max-height:62vh;
-      overflow:auto;
-      position:relative;
+      padding:14px; min-height:360px; overflow:visible;
       background:
         radial-gradient(120px 120px at 8% 16%, #cfe3ff33, transparent 60%),
         radial-gradient(120px 120px at 92% 86%, #b9d8ff33, transparent 60%),
         linear-gradient(180deg,#ffffffaa,#ffffff80);
-      scroll-padding-top:56px;   /* deja espacio para el título sticky */
-      scroll-padding-bottom:8px;
-      overscroll-behavior:contain;
     }
-    .chat-body:focus{outline:none;box-shadow:var(--ring)}
-
-    /* Título sticky dentro del chat */
-    .sticky-title{
-      position:sticky; top:0; z-index:5;
-      display:flex; align-items:center; gap:10px;
-      width:max-content; max-width:100%;
-      padding:8px 12px; margin:-6px 0 10px 0;
-      background:linear-gradient(180deg,#ffffffee,#f8fbffcc);
-      backdrop-filter:blur(6px);
-      border:1px solid #e4efff; border-radius:14px;
-      box-shadow:0 8px 18px rgba(0,0,0,.06);
-      opacity:0; transform:translateY(-10px);
-      pointer-events:none; transition:.18s ease;
-    }
-    .chat-body.scrolled .sticky-title{opacity:1; transform:translateY(0)}
-    .sticky-title .ava{
-      width:24px; height:24px; border-radius:50%;
-      display:grid; place-items:center;
-      background:#e6f2ff; color:#004a99; font-weight:900;
-      flex:0 0 24px;
-    }
-    .sticky-title strong{color:var(--blue-800)}
-
-    /* Línea de tiempo suave */
-    .timeline{position:relative;margin:10px 0 6px 8px;color:var(--muted);font-size:12px}
+    .sticky-title{position:sticky;top:0;z-index:5;display:flex;align-items:center;gap:8px;width:max-content;max-width:100%;
+      padding:6px 10px;margin:-4px 0 6px 0;background:linear-gradient(180deg,#ffffffee,#f8fbffcc);backdrop-filter:blur(6px);
+      border:1px solid #e4efff;border-radius:12px;box-shadow:0 8px 18px rgba(0,0,0,.06);opacity:0;transform:translateY(-8px);pointer-events:none;transition:.18s}
+    .chat-body.scrolled .sticky-title{opacity:1;transform:translateY(0)}
+    .sticky-title .ava{width:22px;height:22px;border-radius:50%;display:grid;place-items:center;flex:0 0 22px}
+    .timeline{position:relative;margin:8px 0 4px 6px;color:var(--muted);font-size:11px}
     .timeline::before{content:"";position:absolute;left:-8px;top:50%;width:4px;height:4px;border-radius:999px;background:var(--blue-600)}
 
-    .msg{display:flex;gap:10px;margin:14px 0;align-items:flex-end}
+    .msg{display:flex;gap:8px;margin:10px 0;align-items:flex-end}
     .msg.user{justify-content:flex-end}
+    .bubble{
+      max-width:min(760px,96%);padding:10px 12px;border-radius:14px;line-height:1.5;color:var(--ink);
+      background:rgba(255,255,255,.72);border:1px solid #e8f0ff;box-shadow:0 5px 12px rgba(0,0,0,.06);
+      /* números también parejos dentro del chat */
+      font-variant-numeric: tabular-nums lining-nums;
+      font-feature-settings: "tnum" 1, "lnum" 1, "liga" 0;
+    }
+    .msg.bot .bubble{background:linear-gradient(180deg,#f6faff,#eef6ff)}
+    .meta{display:flex;gap:6px;align-items:center;font-size:10px;color:var(--muted);margin-top:4px}
+    .ava{width:28px;height:28px;border-radius:50%;display:grid;place-items:center;flex:0 0 28px}
+    .ava.bot{background:#e6f2ff url('cortexa.jpg') center/cover no-repeat;color:transparent;box-shadow:0 2px 6px rgba(0,0,0,.08)}
 
-    /* Burbujas */
-    .bubble{position:relative;max-width:min(720px,92%);padding:12px 14px;border-radius:16px;line-height:1.55;color:var(--ink);background:var(--glass);border:1px solid #e8f0ff;box-shadow:0 6px 16px rgba(0,0,0,.06)}
-    .bubble::after{content:"";position:absolute;inset:-1px;border-radius:inherit;padding:1px;background:linear-gradient(135deg,transparent 50%,#b9d8ff88 100%);-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude}
-    .msg.bot .bubble{background:linear-gradient(180deg,#f6faff,#eef6ff);border:1px solid #d6e8ff}
-    .msg.user .bubble{background:linear-gradient(180deg,#f9fcff,#ffffff);border:1px solid #e6f2ff}
-
-    .meta{display:flex;gap:8px;align-items:center;font-size:11px;color:var(--muted);margin-top:6px}
-    .ava{width:32px;height:32px;border-radius:50%;display:grid;place-items:center;background:#e6f2ff;color:#004a99;font-weight:900;flex:0 0 32px}
-
-    /* Escribiendo */
+    /* Loader de 3 puntitos */
     .typing{display:inline-flex;gap:6px;align-items:center}
     .dot{width:7px;height:7px;border-radius:50%;background:#8fb9ff;animation:blink 1.2s infinite ease-in-out}
-    .dot:nth-child(2){animation-delay:.18s}.dot:nth-child(3){animation-delay:.36s}
+    .dot:nth-child(2){animation-delay:.18s}
+    .dot:nth-child(3){animation-delay:.36s}
     @keyframes blink{0%,80%,100%{opacity:.25;transform:translateY(0)}40%{opacity:1;transform:translateY(-2px)}}
 
-    /* Input + barra de utilidades */
-    .composer{display:flex;flex-direction:column;gap:10px;padding:14px;background:linear-gradient(180deg,#f7fbff,#f3f8ff);border-top:1px solid #e6f2ff}
+    /* Composer */
+    .composer{display:flex;flex-direction:column;gap:10px;padding:12px;background:linear-gradient(180deg,#f7fbff,#f3f8ff);border-top:1px solid #e6f2ff}
     .toolbar{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
-    .chip{border:1.5px solid #cfe2ff;background:#eef6ff;color:#004a99;border-radius:999px;padding:8px 12px;font-weight:700;font-size:.92rem;cursor:pointer}
+    .chip{border:1.5px solid #cfe2ff;background:#eef6ff;color:#004a99;border-radius:999px;padding:7px 11px;font-weight:700;font-size:.9rem;cursor:pointer}
     .chip:hover{background:#66aaff;color:#002244}
     .chip.secondary{background:#f5f9ff}
-
     .inputrow{display:flex;gap:10px}
-    textarea{resize:none;flex:1;min-height:52px;max-height:160px;padding:12px 14px;border-radius:14px;border:1px solid #dce9ff;font-family:inherit;font-size:16px;outline:none;box-shadow:0 6px 12px rgba(0,0,0,.04) inset}
+    textarea{resize:none;flex:1;min-height:52px;max-height:140px;padding:10px 12px;border-radius:12px;border:1px solid #dce9ff;font-family:inherit;font-size:15px;outline:none;box-shadow:0 6px 12px rgba(0,0,0,.04) inset}
     textarea:focus{box-shadow:var(--ring),0 6px 12px rgba(0,0,0,.04) inset}
-    .btn-send{min-width:120px;border:none;border-radius:16px;background:linear-gradient(90deg,var(--blue-700),var(--accent));color:#fff;font-weight:900;padding:14px 18px;cursor:pointer;box-shadow:0 10px 24px rgba(0,0,0,.14);display:inline-flex;gap:8px;align-items:center;justify-content:center}
+    .btn-send{min-width:120px;border:none;border-radius:14px;background:linear-gradient(90deg,var(--blue-700),var(--accent));color:#fff;font-weight:900;padding:12px 16px;cursor:pointer;box-shadow:0 10px 24px rgba(0,0,0,.14);display:inline-flex;gap:8px;align-items:center;justify-content:center}
     .btn-send:disabled{opacity:.65;cursor:default}
 
-    /* Lateral */
-    .side{background:#fff;border-radius:28px;box-shadow:var(--shadow-md);border:1px solid #e6f2ff;padding:18px;position:sticky;top:92px}
-    .side h3{margin:6px 0 12px;color:var(--blue-900)}
-    .cta-mini{display:flex;gap:10px;flex-wrap:wrap;margin:10px 0 2px}
-    .cta-mini a{text-decoration:none;border-radius:999px;padding:10px 14px;font-weight:800;display:inline-flex;align-items:center;gap:8px;border:1.5px solid #cfe2ff;background:#eef6ff;color:#004a99}
+    /* LATERAL */
+    .side{background:#fff;border-radius:22px;box-shadow:var(--shadow-md);border:1px solid #e6f2ff;padding:16px;position:sticky;top:84px}
+    .side h3{margin:6px 0 10px;color:var(--blue-900);font-size:18px}
+    .cta-mini{display:flex;gap:8px;flex-wrap:wrap;margin:8px 0 6px}
+    .cta-mini a{text-decoration:none;border-radius:999px;padding:9px 12px;font-weight:800;display:inline-flex;align-items:center;gap:8px;border:1.5px solid #cfe2ff;background:#eef6ff;color:#004a99}
     .cta-mini a.primary{background:#66aaff;color:#002244}
+    .side ul{margin:6px 0 0 18px;color:#24415f;line-height:1.5;font-size:.95rem}
+    .card{border:1px solid #e6f2ff;background:#f8fbff;border-radius:14px;padding:12px;margin-top:12px}
+    .list-check{list-style:none;margin:6px 0 0;padding-left:0}
+    .list-check li{display:flex;gap:8px;align-items:flex-start;margin:6px 0}
+    .list-check i{color:var(--ok);margin-top:2px}
 
-    /* Accesibilidad extra */
+    /* MODAL */
+    .cx-modal{position:fixed;inset:0;background:rgba(0,0,0,.45);display:none;align-items:center;justify-content:center;padding:16px;z-index:4000}
+    .cx-modal.is-open{display:flex}
+    .cx-modal-card{width:min(560px,92vw);background:#fff;border-radius:16px;box-shadow:var(--shadow-lg);border:1px solid #e6f2ff;padding:18px;animation:cx-pop .18s ease}
+    .cx-modal-card h3{margin:0 0 8px;color:#0b2a4a}
+    .cx-modal-card ul{margin:8px 0 0 18px;color:#234}
+    .cx-modal-actions{display:flex;justify-content:flex-end;gap:10px;margin-top:14px}
+    @keyframes cx-pop{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+
     .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
-    @media (prefers-reduced-motion: reduce){
-      *{animation:none!important;transition:none!important}
-    }
+    @media (prefers-reduced-motion: reduce){*{animation:none!important;transition:none!important}}
   </style>
 </head>
 <body>
-  <!-- ===== HEADER (igual) ===== -->
+  <!-- HEADER -->
   <header>
     <div class="topbar">
       <div class="brand"><h1>Neuropsicóloga Rodríguez</h1></div>
@@ -180,46 +177,58 @@
     </div>
   </header>
 
-  <!-- ===== NAV (igual) ===== -->
+  <!-- NAV -->
   <nav>
     <div class="navlinks">
       <a href="index.html"><i class="fas fa-home"></i> Inicio</a>
       <a href="sobremi.html"><i class="fas fa-user"></i> Sobre Mí</a>
+      <!-- NUEVOS enlaces solicitados -->
+      <a href="cortexa.html">Cortexa</a>
+      <a href="especialidades.html">Especialidades</a>
+      <!-- Fin de nuevos enlaces -->
       <a href="reservarcita.html"><i class="fas fa-calendar-check"></i> Reservar Cita</a>
     </div>
   </nav>
 
-  <!-- ===== COVER (pulida) ===== -->
+  <!-- COVER -->
   <section class="cover" aria-label="Presentación de Cortexa">
     <div class="cover-inner">
-      <h2 style="margin-bottom:.2rem">Cortexa</h2>
+      <img class="hero-ava" src="cortexa.jpg" alt="Cortexa"/>
+      <h2>Cortexa</h2>
       <p class="lead">Un espacio cercano, cálido y confidencial para hablar de lo que necesites.</p>
+      <div class="on-actions">
+        <button id="go-chat" class="btn primary"><i class="fa-solid fa-message"></i> Empezar ahora</button>
+        <button id="how-btn" class="btn ghost"><i class="fa-regular fa-circle-question"></i> ¿Cómo funciona?</button>
+        <span class="pill"><i class="fa-solid fa-lock"></i> Tus mensajes son confidenciales</span>
+      </div>
     </div>
   </section>
 
-  <!-- ===== CHAT ===== -->
+  <!-- CHAT -->
   <section class="container">
     <div class="chat-wrap">
-      <!-- Panel principal -->
+      <!-- Principal -->
       <article class="chat-card" aria-live="polite" aria-label="Chat con Cortexa">
         <div class="chat-header">
-          <div class="bot-ava">🤖</div>
+          <div class="bot-ava" title="Cortexa"></div>
           <div>
-            <h3 class="chat-title" style="margin:0">Cortexa</h3>
+            <!-- Título + estado en línea -->
+            <div class="chat-head-row">
+              <h3 class="chat-title" style="margin:0">Cortexa</h3>
+              <span class="online-badge"><span class="status-dot"></span> En línea</span>
+            </div>
             <div class="chat-sub">Asistente de la neuropsicóloga Rodríguez</div>
           </div>
         </div>
 
         <div id="chat" class="chat-body" role="log" aria-label="Conversación">
-          <!-- Título sticky que aparece al hacer scroll -->
           <div class="sticky-title" aria-hidden="true">
-            <div class="ava">🤖</div><strong>Cortexa</strong>
+            <div class="ava bot" aria-hidden="true"></div><strong>Cortexa</strong>
           </div>
 
           <div class="timeline">Inicio de conversación</div>
-          <!-- Mensaje de bienvenida accesible y breve -->
           <div class="msg bot">
-            <div class="ava">🤖</div>
+            <div class="ava bot" aria-hidden="true"></div>
             <div>
               <div class="bubble">Hola, soy Cortexa. Te escucho. ¿Qué te gustaría hablar hoy?</div>
               <div class="meta"><i class="fa-regular fa-shield"></i> Confidencial • Enter para enviar</div>
@@ -230,11 +239,28 @@
         <!-- Composer -->
         <div class="composer">
           <div class="toolbar" aria-label="Sugerencias rápidas">
+            <!-- Fila 1 -->
             <button class="chip" data-suggest="Tengo celos y no sé cómo hablarlo.">Celos</button>
             <button class="chip" data-suggest="Estoy con ansiedad y quiero técnicas rápidas.">Ansiedad</button>
             <button class="chip" data-suggest="Me cuesta concentrarme al estudiar.">Estudio</button>
-            <button class="chip secondary" data-suggest="¿Cómo agendo una evaluación neuropsicológica?">Evaluación</button>
+            <button class="chip" data-suggest="Me siento estresado/a, ¿cómo bajo la tensión hoy?">Estrés</button>
+            <button class="chip" data-suggest="Tengo ánimo bajo, dame pautas para el día.">Ánimo bajo</button>
+            <button class="chip" data-suggest="Estoy en duelo, ¿cómo gestiono estas emociones?">Duelo</button>
+            <button class="chip" data-suggest="Quiero mejorar mi autoestima con ejercicios simples.">Autoestima</button>
+            <!-- Fila 2 -->
+            <button class="chip" data-suggest="Ayúdame a organizar mi día en 3 pasos.">Organización</button>
+            <button class="chip" data-suggest="No duermo bien, ¿rutina breve para dormir mejor?">Sueño</button>
+            <button class="chip" data-suggest="Quiero 3 hábitos saludables fáciles de empezar.">Hábitos saludables</button>
+            <button class="chip" data-suggest="Estoy con mi pareja y quiero hablar de límites con calma.">Pareja</button>
+            <button class="chip" data-suggest="Tengo conflictos en familia, ¿pautas para comunicarnos mejor?">Familia</button>
+            <button class="chip" data-suggest="Quiero practicar comunicación asertiva con ejemplos.">Comunicación asertiva</button>
+            <!-- Fila 3 -->
+            <button class="chip" data-suggest="Tengo despistes, ¿qué estrategias de TDAH puedo probar?">TDAH</button>
+            <button class="chip" data-suggest="Necesito ejercicios de funciones ejecutivas.">Funciones ejecutivas</button>
+            <button class="chip" data-suggest="Quiero técnicas simples para la memoria cotidiana.">Memoria</button>
+            <button class="chip secondary" data-suggest="¿Cómo agendo una evaluación neuropsicológica?">Evaluación neuropsicológica</button>
           </div>
+
           <div class="inputrow">
             <label class="sr-only" for="prompt">Escribe tu mensaje</label>
             <textarea id="prompt" placeholder="Escribe tu pregunta aquí…" rows="2" aria-label="Área de mensaje"></textarea>
@@ -251,79 +277,106 @@
           <a class="primary" href="reservarcita.html"><i class="fas fa-calendar-check"></i> Reservar cita</a>
           <a href="https://wa.me/51943748260" target="_blank" rel="noopener"><i class="fab fa-whatsapp"></i> WhatsApp</a>
         </div>
-        <h3 style="margin-top:18px">Temas frecuentes</h3>
-        <ul style="margin:6px 0 0 18px;color:#24415f;line-height:1.6">
-          <li>Ansiedad, estrés, ánimo bajo y duelo</li>
-          <li>Funciones ejecutivas, TDAH, aprendizaje</li>
-          <li>Familia, pareja y convivencia</li>
-          <li>Evaluación y rehabilitación neuropsicológica</li>
-        </ul>
+
+        <div class="card">
+          <h3 style="margin:0 0 6px">Motivos frecuentes</h3>
+          <ul class="list-check">
+            <li><i class="fa-solid fa-check-circle"></i> Ansiedad, estrés, ánimo bajo y duelo</li>
+            <li><i class="fa-solid fa-check-circle"></i> Funciones ejecutivas, TDAH, aprendizaje</li>
+            <li><i class="fa-solid fa-check-circle"></i> Familia, pareja y convivencia</li>
+            <li><i class="fa-solid fa-check-circle"></i> Evaluación y rehabilitación neuropsicológica</li>
+          </ul>
+        </div>
+
+        <div class="card">
+          <h3 style="margin:0 0 6px">Glosario</h3>
+          <p style="margin:6px 0 10px">
+            Encuentra explicaciones claras y breves de conceptos de psicología y neuropsicología (ansiedad, TDAH, funciones ejecutivas, memoria y más), con ejemplos fáciles de aplicar.
+          </p>
+          <div class="cta-mini">
+            <a class="primary" href="glosario.html"><i class="fa-solid fa-circle-info"></i> Ver glosario</a>
+          </div>
+        </div>
       </aside>
     </div>
   </section>
 
+  <!-- MODAL ¿Cómo funciona? -->
+  <div class="cx-modal" id="cxHowModal" role="dialog" aria-modal="true" aria-labelledby="cxHowTitle">
+    <div class="cx-modal-card">
+      <h3 id="cxHowTitle">¿Cómo funciona?</h3>
+      <ul>
+        <li><strong>Qué hace:</strong> orientación breve, técnicas y psicoeducación.</li>
+        <li><strong>Qué no hace:</strong> no diagnostica ni maneja emergencias.</li>
+        <li><strong>Privacidad:</strong> tus mensajes son confidenciales.</li>
+      </ul>
+      <div class="cx-modal-actions">
+        <button id="cxCloseHow" class="btn primary">Entendido</button>
+      </div>
+    </div>
+  </div>
+
   <script>
-    // ======= CONFIG =======
+    // ======= CONFIG (intacto) =======
     const BACKEND_URL = "https://cortexa-backend.cortexa.workers.dev";
     const CHAT = document.getElementById("chat");
     const PROMPT = document.getElementById("prompt");
     const SEND = document.getElementById("send");
     const SESSION_ID = "demo-session";
 
-    // ======= UI helpers =======
+    // ======= helpers =======
     const el = (html)=>{ const t=document.createElement("template"); t.innerHTML=html.trim(); return t.content.firstChild; };
-    const scrollBottom = ()=>{ CHAT.scrollTop = CHAT.scrollHeight; };
     const nowTime = ()=> new Date().toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'});
-    const sanitize = (text)=> String(text)
-      .replace(/&/g,"&amp;")
-      .replace(/</g,"&lt;")
-      .replace(/>/g,"&gt;")
-      .replace(/\n/g,"<br>");
+    const sanitize = (text)=> String(text).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/\n/g,"<br>");
+    const scrollToBottom = ()=> window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+
     const addBot = (text)=>{
-      const node = el(`<div class="msg bot"><div class="ava">🤖</div><div><div class="bubble">${sanitize(text)}</div><div class="meta">${nowTime()} • Cortexa</div></div></div>`);
-      CHAT.appendChild(node); scrollBottom();
+      const node = el(`<div class="msg bot"><div class="ava bot" aria-hidden="true"></div><div><div class="bubble">${sanitize(text)}</div><div class="meta">${nowTime()} • Cortexa</div></div></div>`);
+      CHAT.appendChild(node); scrollToBottom();
     };
     const addUser = (text)=>{
       const node = el(`<div class="msg user"><div><div class="bubble">${sanitize(text)}</div><div class="meta">${nowTime()} • Tú</div></div></div>`);
-      CHAT.appendChild(node); scrollBottom();
+      CHAT.appendChild(node); scrollToBottom();
     };
 
-    // Indicador de escritura
+    // loader 3 puntitos (con avatar de imagen)
     let typingNode = null;
     const showTyping = ()=>{
-      typingNode = el(`<div class="msg bot" id="typing"><div class="ava">🤖</div><div class="bubble"><span class="typing"><span class="dot"></span><span class="dot"></span><span class="dot"></span></span></div></div>`);
-      CHAT.appendChild(typingNode); scrollBottom();
+      typingNode = el(`
+        <div class="msg bot" id="typing">
+          <div class="ava bot" aria-hidden="true"></div>
+          <div class="bubble">
+            <span class="typing"><span class="dot"></span><span class="dot"></span><span class="dot"></span></span>
+          </div>
+        </div>`);
+      CHAT.appendChild(typingNode); scrollToBottom();
     };
     const hideTyping = ()=>{ if(typingNode && typingNode.parentNode){ typingNode.parentNode.removeChild(typingNode); typingNode=null; } };
 
     const setBusy = (b)=>{ SEND.disabled=b; PROMPT.disabled=b; };
 
-    // Auto-crecimiento del textarea
-    const autoGrow = ()=>{ PROMPT.style.height = 'auto'; PROMPT.style.height = Math.min(PROMPT.scrollHeight, 160)+"px"; };
+    // auto-grow
+    const autoGrow = ()=>{ PROMPT.style.height='auto'; PROMPT.style.height=Math.min(PROMPT.scrollHeight, 140)+"px"; };
     PROMPT.addEventListener('input', autoGrow);
 
-    // Sugerencias rápidas
+    // chips
     document.querySelectorAll('.chip').forEach(ch=>{
       ch.addEventListener('click', ()=>{
         const s = ch.getAttribute('data-suggest');
-        PROMPT.value = s;
-        autoGrow();
-        PROMPT.focus();
+        PROMPT.value = s; autoGrow(); PROMPT.focus();
       });
     });
 
-    // ======= Networking =======
+    // backend
     async function askBackend(payload){
       const res = await fetch(BACKEND_URL, {
-        method:"POST",
-        headers:{ "Content-Type":"application/json" },
-        body: JSON.stringify(payload)
+        method:"POST", headers:{ "Content-Type":"application/json" }, body: JSON.stringify(payload)
       });
       if(!res.ok) throw new Error(`HTTP ${res.status}`);
       return res.json();
     }
 
-    // ======= Send flow =======
+    // enviar
     async function handleSend(){
       const q = PROMPT.value.trim();
       if(!q) return;
@@ -336,25 +389,35 @@
         if(error) addBot("⚠️ " + error);
         else addBot(answer || "No pude generar una respuesta ahora.");
       }catch(e){
-        hideTyping();
-        addBot("⚠️ Error de conexión. Intenta de nuevo.");
+        hideTyping(); addBot("⚠️ Error de conexión. Intenta de nuevo.");
       }finally{
         setBusy(false); PROMPT.focus();
       }
     }
 
     SEND.addEventListener("click", handleSend);
-    PROMPT.addEventListener("keydown", (e)=>{
-      if(e.key==="Enter" && !e.shiftKey){ e.preventDefault(); handleSend(); }
+    PROMPT.addEventListener("keydown", (e)=>{ if(e.key==="Enter" && !e.shiftKey){ e.preventDefault(); handleSend(); } });
+
+    // sticky helper (por si algún día usas scroll interno)
+    function toggleStickyTitle(){ CHAT.classList.toggle('scrolled', CHAT.scrollTop > 24); }
+    CHAT.addEventListener('scroll', toggleStickyTitle); toggleStickyTitle();
+
+    // acciones cover
+    document.getElementById('go-chat')?.addEventListener('click', ()=>{
+      document.querySelector('.chat-card').scrollIntoView({behavior:'smooth', block:'start'});
+      setTimeout(()=>{ PROMPT?.focus(); }, 300);
     });
 
-    // ======= Sticky title toggle =======
-    function toggleStickyTitle(){
-      CHAT.classList.toggle('scrolled', CHAT.scrollTop > 24);
+    // MODAL ¿Cómo funciona?
+    const howBtn = document.getElementById('how-btn');
+    const cxModal = document.getElementById('cxHowModal');
+    const cxClose = document.getElementById('cxCloseHow');
+    if(howBtn && cxModal && cxClose){
+      howBtn.addEventListener('click', ()=> cxModal.classList.add('is-open'));
+      cxClose.addEventListener('click', ()=> cxModal.classList.remove('is-open'));
+      cxModal.addEventListener('click', (e)=>{ if(e.target===cxModal) cxModal.classList.remove('is-open'); });
+      window.addEventListener('keydown', (e)=>{ if(e.key==='Escape') cxModal.classList.remove('is-open'); });
     }
-    CHAT.addEventListener('scroll', toggleStickyTitle);
-    // Init
-    toggleStickyTitle();
   </script>
 </body>
 </html>
