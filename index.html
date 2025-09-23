@@ -22,7 +22,7 @@
       --blue-900:#002b5c; --blue-800:#003366; --blue-700:#004a99; --blue-600:#005bbf; --blue-500:#2f6cb8;
       --sky-050:#f5f9ff; --sky-100:#eaf3ff; --white:#ffffff;
       --accent:#66aaff; --ink:#223a59; --muted:#5f7aa1;
-      --ok:#10b981;
+      --ok:#10b981; --danger:#ef4444;
       --shadow-lg:0 18px 50px rgba(0,0,0,.14); --shadow-md:0 12px 28px rgba(0,0,0,.10);
       --ring:0 0 0 3px #66aaff44;
     }
@@ -30,7 +30,6 @@
     html,body{height:100%}
     body{
       margin:0;font-family:'Raleway',sans-serif;background:linear-gradient(135deg,var(--sky-050),#fff);color:var(--ink);
-      /* números rectos y parejos en todo el sitio */
       font-variant-numeric: tabular-nums lining-nums;
       font-feature-settings: "tnum" 1, "lnum" 1, "liga" 0;
       -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility;
@@ -112,12 +111,11 @@
     .bubble{
       max-width:min(760px,96%);padding:10px 12px;border-radius:14px;line-height:1.5;color:var(--ink);
       background:rgba(255,255,255,.72);border:1px solid #e8f0ff;box-shadow:0 5px 12px rgba(0,0,0,.06);
-      /* números también parejos dentro del chat */
-      font-variant-numeric: tabular-nums lining-nums;
+      font-variant-numeric: tabular-nums;
       font-feature-settings: "tnum" 1, "lnum" 1, "liga" 0;
     }
     .msg.bot .bubble{background:linear-gradient(180deg,#f6faff,#eef6ff)}
-    .meta{display:flex;gap:6px;align-items:center;font-size:10px;color:var(--muted);margin-top:4px}
+    .meta{display:flex;gap:6px;align-items:center;font-size:10px;color:#muted;margin-top:4px}
     .ava{width:28px;height:28px;border-radius:50%;display:grid;place-items:center;flex:0 0 28px}
     .ava.bot{background:#e6f2ff url('cortexa.jpg') center/cover no-repeat;color:transparent;box-shadow:0 2px 6px rgba(0,0,0,.08)}
 
@@ -160,6 +158,17 @@
     .cx-modal-card ul{margin:8px 0 0 18px;color:#234}
     .cx-modal-actions{display:flex;justify-content:flex-end;gap:10px;margin-top:14px}
     @keyframes cx-pop{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+
+    /* ===== Línea de límites ===== */
+    .limit-row{
+      display:flex;align-items:center;justify-content:space-between;
+      flex-wrap:wrap;gap:8px;margin-top:6px;font-size:12px;color:var(--muted)
+    }
+    .counter{font-variant-numeric: tabular-nums}
+    .counter.bad{color:var(--danger);font-weight:800}
+    .counter.good{color:var(--ok);font-weight:800} /* <-- verde cuando N < 10 */
+    .hint-inline{font-size:12px;color:var(--muted)}
+    .hint-inline i{margin-right:6px}
 
     .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
     @media (prefers-reduced-motion: reduce){*{animation:none!important;transition:none!important}}
@@ -212,7 +221,6 @@
         <div class="chat-header">
           <div class="bot-ava" title="Cortexa"></div>
           <div>
-            <!-- Título + estado en línea -->
             <div class="chat-head-row">
               <h3 class="chat-title" style="margin:0">Cortexa</h3>
               <span class="online-badge"><span class="status-dot"></span> En línea</span>
@@ -266,6 +274,13 @@
             <textarea id="prompt" placeholder="Escribe tu pregunta aquí…" rows="2" aria-label="Área de mensaje"></textarea>
             <button id="send" class="btn-send"><i class="fa-solid fa-paper-plane"></i> Enviar</button>
           </div>
+
+          <!-- Línea de límites -->
+          <div class="limit-row" aria-live="polite">
+            <span id="wordCounter" class="counter">0 / 250 palabras</span>
+            <span class="hint-inline"><i class="fa-regular fa-lightbulb"></i> Máx. 250 palabras por mensaje y 10 mensajes por día.</span>
+            <span id="dailyCounter" class="counter">Hoy: 0 / 10</span>
+          </div>
         </div>
       </article>
 
@@ -274,8 +289,8 @@
         <h3>¿Necesitas una cita?</h3>
         <p style="margin-top:0">Cortexa orienta; la atención profesional es con la Neuropsicóloga Rodríguez.</p>
         <div class="cta-mini">
-          <a class="primary" href="reservarcita.html"><i class="fas fa-calendar-check"></i> Reservar cita</a>
-          <a href="https://wa.me/51943748260" target="_blank" rel="noopener"><i class="fab fa-whatsapp"></i> WhatsApp</a>
+            <a class="primary" href="reservarcita.html"><i class="fas fa-calendar-check"></i> Reservar cita</a>
+            <a href="https://wa.me/51943748260" target="_blank" rel="noopener"><i class="fab fa-whatsapp"></i> WhatsApp</a>
         </div>
 
         <div class="card">
@@ -309,6 +324,7 @@
         <li><strong>Qué hace:</strong> orientación breve, técnicas y psicoeducación.</li>
         <li><strong>Qué no hace:</strong> no diagnostica ni maneja emergencias.</li>
         <li><strong>Privacidad:</strong> tus mensajes son confidenciales.</li>
+        <li><strong>Límites de uso:</strong> máx. <u>250 palabras por mensaje</u> y <u>10 mensajes por día</u>.</li>
       </ul>
       <div class="cx-modal-actions">
         <button id="cxCloseHow" class="btn primary">Entendido</button>
@@ -317,12 +333,20 @@
   </div>
 
   <script>
-    // ======= CONFIG (intacto) =======
+    // ======= CONFIG =======
     const BACKEND_URL = "https://cortexa-backend.cortexa.workers.dev";
     const CHAT = document.getElementById("chat");
     const PROMPT = document.getElementById("prompt");
     const SEND = document.getElementById("send");
     const SESSION_ID = "demo-session";
+
+    // Límites
+    const WORD_LIMIT = 250;
+    const DAILY_LIMIT = 10;
+
+    // UI
+    const WORD_COUNTER = document.getElementById("wordCounter");
+    const DAILY_COUNTER = document.getElementById("dailyCounter");
 
     // ======= helpers =======
     const el = (html)=>{ const t=document.createElement("template"); t.innerHTML=html.trim(); return t.content.firstChild; };
@@ -339,7 +363,7 @@
       CHAT.appendChild(node); scrollToBottom();
     };
 
-    // loader 3 puntitos (con avatar de imagen)
+    // loader
     let typingNode = null;
     const showTyping = ()=>{
       typingNode = el(`
@@ -353,10 +377,75 @@
     };
     const hideTyping = ()=>{ if(typingNode && typingNode.parentNode){ typingNode.parentNode.removeChild(typingNode); typingNode=null; } };
 
-    const setBusy = (b)=>{ SEND.disabled=b; PROMPT.disabled=b; };
+    // ====== Rate limiting (cliente: preventivo) ======
+    const todayKey = ()=> {
+      const d = new Date();
+      const y = d.getFullYear();
+      const m = String(d.getMonth()+1).padStart(2,'0');
+      const day = String(d.getDate()).padStart(2,'0');
+      return `cx_usage_${y}-${m}-${day}`;
+    };
 
-    // auto-grow
-    const autoGrow = ()=>{ PROMPT.style.height='auto'; PROMPT.style.height=Math.min(PROMPT.scrollHeight, 140)+"px"; };
+    const readTodayCount = ()=> {
+      const raw = localStorage.getItem(todayKey());
+      const n = raw ? parseInt(raw,10) : 0;
+      return isNaN(n) ? 0 : n;
+    };
+    const writeTodayCount = (n)=> {
+      localStorage.setItem(todayKey(), String(Math.max(0, n|0)));
+    };
+    const incrementTodayCount = ()=> {
+      const n = readTodayCount()+1;
+      writeTodayCount(n);
+      return n;
+    };
+    const setMaxedToday = ()=> writeTodayCount(DAILY_LIMIT);
+
+    // Palabras
+    const countWords = (text)=>{
+      const m = String(text).trim().match(/\b[\p{L}\p{N}'-]+\b/gu);
+      return m ? m.length : 0;
+    };
+
+    // Estado UI
+    let isBusy = false;
+    const setBusy = (b)=>{ isBusy=b; updateSendEnabled(); };
+
+    const updateWordUI = ()=>{
+      const n = countWords(PROMPT.value);
+      WORD_COUNTER.textContent = `${n} / ${WORD_LIMIT} palabras`;
+      WORD_COUNTER.classList.toggle('bad', n > WORD_LIMIT);
+    };
+
+    const updateDailyUI = ()=>{
+      const used = readTodayCount();
+      DAILY_COUNTER.textContent = `Hoy: ${used} / ${DAILY_LIMIT}`;
+      // Verde si aún no llega al límite, rojo si llegó
+      DAILY_COUNTER.classList.toggle('good', used < DAILY_LIMIT);
+      DAILY_COUNTER.classList.toggle('bad', used >= DAILY_LIMIT);
+    };
+
+    const canSend = ()=>{
+      const words = countWords(PROMPT.value.trim());
+      const used = readTodayCount();
+      return !isBusy && words > 0 && words <= WORD_LIMIT && used < DAILY_LIMIT;
+    };
+
+    const updateSendEnabled = ()=>{
+      SEND.disabled = !canSend();
+    };
+
+    const softError = (msg)=>{
+      addBot(`⚠️ ${msg}`);
+    };
+
+    // auto-grow + contadores
+    const autoGrow = ()=>{
+      PROMPT.style.height='auto';
+      PROMPT.style.height=Math.min(PROMPT.scrollHeight, 140)+"px";
+      updateWordUI();
+      updateSendEnabled();
+    };
     PROMPT.addEventListener('input', autoGrow);
 
     // chips
@@ -372,33 +461,89 @@
       const res = await fetch(BACKEND_URL, {
         method:"POST", headers:{ "Content-Type":"application/json" }, body: JSON.stringify(payload)
       });
-      if(!res.ok) throw new Error(`HTTP ${res.status}`);
-      return res.json();
+      const status = res.status;
+      let data = null;
+      try { data = await res.json(); } catch(_){}
+      return { status, data };
     }
 
     // enviar
     async function handleSend(){
       const q = PROMPT.value.trim();
+      const words = countWords(q);
+      const used = readTodayCount();
+
       if(!q) return;
+
+      if(words > WORD_LIMIT){
+        softError(`Tu mensaje tiene ${words} palabras. Reduce a ${WORD_LIMIT} o menos.`);
+        return;
+      }
+      if(used >= DAILY_LIMIT){
+        softError(`Has alcanzado el límite diario de ${DAILY_LIMIT} mensajes. Inténtalo nuevamente en 24 horas o agenda una cita.`);
+        updateSendEnabled();
+        return;
+      }
+
       addUser(q);
       PROMPT.value = ""; autoGrow();
       setBusy(true); showTyping();
+
       try{
-        const { answer, error } = await askBackend({ question: q, sessionId: SESSION_ID });
+        const { status, data } = await askBackend({ question: q, sessionId: SESSION_ID });
+
         hideTyping();
-        if(error) addBot("⚠️ " + error);
-        else addBot(answer || "No pude generar una respuesta ahora.");
+
+        if(status === 429){
+          setMaxedToday();
+          updateDailyUI(); updateSendEnabled();
+          const retry = data && data.retry_after
+            ? `Vuelve en ${Math.ceil(data.retry_after/60)} min.`
+            : `Vuelve en 24 horas.`;
+          softError(`Límite diario alcanzado. ${retry}`);
+          return;
+        }
+
+        if(status === 400 && data && /palabras/i.test(String(data.error || ""))){
+          softError(data.error || "Mensaje demasiado largo.");
+          return;
+        }
+
+        if(status >= 400){
+          softError((data && data.error) ? data.error : `Error ${status}. Intenta de nuevo.`);
+          return;
+        }
+
+        incrementTodayCount();
+        updateDailyUI(); updateSendEnabled();
+
+        const answer = data && data.answer ? data.answer : "No pude generar una respuesta ahora.";
+        addBot(answer);
+
       }catch(e){
-        hideTyping(); addBot("⚠️ Error de conexión. Intenta de nuevo.");
+        hideTyping();
+        softError("Error de conexión. Intenta de nuevo.");
       }finally{
         setBusy(false); PROMPT.focus();
       }
     }
 
     SEND.addEventListener("click", handleSend);
-    PROMPT.addEventListener("keydown", (e)=>{ if(e.key==="Enter" && !e.shiftKey){ e.preventDefault(); handleSend(); } });
+    PROMPT.addEventListener("keydown", (e)=>{
+      if(e.key==="Enter" && !e.shiftKey){
+        e.preventDefault();
+        if(canSend()) handleSend();
+        else{
+          const words = countWords(PROMPT.value.trim());
+          const used = readTodayCount();
+          if(!PROMPT.value.trim()) return;
+          if(words > WORD_LIMIT) softError(`Tu mensaje tiene ${words} palabras. Máximo permitido: ${WORD_LIMIT}.`);
+          else if(used >= DAILY_LIMIT) softError(`Has alcanzado el límite diario de ${DAILY_LIMIT} mensajes.`);
+        }
+      }
+    });
 
-    // sticky helper (por si algún día usas scroll interno)
+    // sticky helper
     function toggleStickyTitle(){ CHAT.classList.toggle('scrolled', CHAT.scrollTop > 24); }
     CHAT.addEventListener('scroll', toggleStickyTitle); toggleStickyTitle();
 
@@ -408,7 +553,7 @@
       setTimeout(()=>{ PROMPT?.focus(); }, 300);
     });
 
-    // MODAL ¿Cómo funciona?
+    // MODAL
     const howBtn = document.getElementById('how-btn');
     const cxModal = document.getElementById('cxHowModal');
     const cxClose = document.getElementById('cxCloseHow');
@@ -418,6 +563,11 @@
       cxModal.addEventListener('click', (e)=>{ if(e.target===cxModal) cxModal.classList.remove('is-open'); });
       window.addEventListener('keydown', (e)=>{ if(e.key==='Escape') cxModal.classList.remove('is-open'); });
     }
+
+    // Inicializa contadores
+    updateWordUI();
+    updateDailyUI();
+    updateSendEnabled();
   </script>
 </body>
 </html>
