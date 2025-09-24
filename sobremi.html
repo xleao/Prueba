@@ -37,12 +37,12 @@
     body{margin:0;font-family:'Raleway',sans-serif;background:linear-gradient(135deg,var(--sky-100),#fff);color:var(--blue-800);overflow-x:hidden}
     a{color:inherit}
 
-    /* ===== HEADER (idéntico al que enviaste) ===== */
+    /* ===== HEADER (definitivo) ===== */
     header{
       position:sticky;top:0;z-index:1000;
       background:linear-gradient(90deg,var(--blue-900),var(--blue-700));
       color:#fff;
-      padding:14px 20px; /* igual */
+      padding:14px 20px;
       box-shadow:0 12px 28px rgba(0,0,0,.10);
     }
     .topbar{
@@ -51,7 +51,7 @@
     }
     .brand{display:flex;align-items:center;gap:10px}
     .brand h1{font-size:26px;margin:0;letter-spacing:.6px}
-    .brand .logo{height:1em;width:auto;object-fit:contain;display:block} /* sin uso, igual permanece */
+    .brand .logo{height:1em;width:auto;object-fit:contain;display:block}
 
     .quick{display:flex;gap:10px;opacity:.95}
     .quick a.social{
@@ -64,22 +64,44 @@
     }
     .quick a.social:hover{background:#66b3ff;color:#002244}
 
-    /* ===== NAV (idéntico al que enviaste) ===== */
+    /* ===== NAV (definitivo) ===== */
     nav{background:var(--blue-800)}
     .navlinks{
       max-width:1200px;margin:auto;
       display:flex;justify-content:center;gap:18px;
-      padding:12px 0; /* ↑ antes 8px: pequeño aumento de alto */
+      padding:12px 0;
       flex-wrap:wrap
     }
     .navlinks a{
       color:#fff;text-decoration:none;background:rgba(255,255,255,.12);
       border:1.5px solid rgba(255,255,255,.28);border-radius:999px;
-      padding:12px 20px; /* ↑ antes 10px 16px */
-      font-weight:800;font-size:1.04rem; /* ↑ antes .98rem */
+      padding:12px 20px;
+      font-weight:800;font-size:1.04rem;
       transition:.3s;display:inline-flex;align-items:center;gap:8px
     }
     .navlinks a:hover{background:#66b3ff;color:#002244}
+
+    /* Punto verde “Cortexa” (latido suave) */
+    .navlinks a.cx-live{display:inline-flex;align-items:center;gap:8px}
+    .navlinks a.cx-live .cx-dot{
+      width:10px;height:10px;border-radius:50%;
+      background:#00ff40e7;
+      box-shadow:0 0 10px rgba(0,255,106,.75);
+      margin-right:0;
+      position:relative;
+      animation:pulseDot 2.5s ease-in-out infinite;
+      transform-origin:center center;
+    }
+    .navlinks a.cx-live .cx-dot::after{
+      content:"";position:absolute;inset:-6px;border-radius:inherit;
+      background:rgba(0,255,106,.28);
+      filter:blur(2px);
+    }
+    @keyframes pulseDot{
+      0%   { transform:scale(1.00); box-shadow:0 0 10px rgba(0,255,106,.75); }
+      45%  { transform:scale(0.82); box-shadow:0 0 6px  rgba(0,255,106,.50); }
+      100% { transform:scale(1.00); box-shadow:0 0 10px rgba(0,255,106,.75); }
+    }
 
     /* ===== CONTENIDO (diseño bonito/minimalista) ===== */
 
@@ -192,8 +214,8 @@
       .container{padding:28px 16px}
       .section-title{font-size:24px}
       .grid{grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px}
-      .navlinks{gap:16px;padding:10px 0} /* igual que tu nav móvil */
-      .navlinks a{font-size:1.04rem;padding:12px 18px} /* igual */
+      .navlinks{gap:16px;padding:10px 0}
+      .navlinks a{font-size:1.04rem;padding:12px 18px}
       .brand h1{font-size:24px}
       .quick a.social{width:36px;height:36px;font-size:16px}
       .hero-grid{grid-template-columns:1fr}
@@ -227,7 +249,7 @@
   </script>
   <!-- ====== FIN AUDIO ====== -->
 
-  <!-- ===== HEADER (copiado tal cual) ===== -->
+  <!-- ===== HEADER (definitivo) ===== -->
   <header>
     <div class="topbar">
       <div class="brand">
@@ -244,12 +266,14 @@
     </div>
   </header>
 
-  <!-- ===== NAV (copiado tal cual) ===== -->
+  <!-- ===== NAV (definitivo, con puntito en Cortexa) ===== -->
   <nav>
     <div class="navlinks">
       <a href="index.html"><i class="fas fa-home" aria-hidden="true"></i> Inicio</a>
       <a href="sobremi.html"><i class="fas fa-user" aria-hidden="true"></i> Sobre Mí</a>
-      <a href="cortexa.html">Cortexa</a>
+      <a href="cortexa.html" class="cx-live">
+        <span class="cx-dot" aria-hidden="true"></span> Cortexa
+      </a>
       <a href="especialidades.html"><i class="fas fa-brain" aria-hidden="true"></i> Especialidades</a>
       <a href="reservarcita.html"><i class="fas fa-calendar-check" aria-hidden="true"></i> Reservar Cita</a>
     </div>

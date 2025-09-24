@@ -83,6 +83,28 @@
     }
     .navlinks a:hover{background:#66b3ff;color:#002244}
 
+    /* ===== Punto verde “Cortexa” (más chillón y notorio) ===== */
+    .navlinks a.cx-live{display:inline-flex;align-items:center;gap:8px}
+    .navlinks a.cx-live .cx-dot{
+      width:10px;height:10px;border-radius:50%;
+      background:#00ff40e7;                    /* verde CHILLÓN */
+      box-shadow:0 0 10px rgba(0,255,106,.75);/* brillo más fuerte */
+      margin-right:0;                         /* pegado al texto */
+      position:relative;
+      animation:pulseDot 2.5s ease-in-out infinite; /* latido lento */
+      transform-origin:center center;
+    }
+    .navlinks a.cx-live .cx-dot::after{
+      content:"";position:absolute;inset:-6px;border-radius:inherit;
+      background:rgba(0,255,106,.28);         /* halo exterior */
+      filter:blur(2px);
+    }
+    @keyframes pulseDot{
+      0%   { transform:scale(1.00); box-shadow:0 0 10px rgba(0,255,106,.75); }
+      45%  { transform:scale(0.82); box-shadow:0 0 6px  rgba(0,255,106,.50); }
+      100% { transform:scale(1.00); box-shadow:0 0 10px rgba(0,255,106,.75); }
+    }
+
     /* ===== CONTENIDO ===== */
     .content-container{padding:50px 0}
 
@@ -198,12 +220,17 @@
     </div>
   </header>
 
-  <!-- ===== NAV (copiado tal cual del modelo) ===== -->
+  <!-- ===== NAV (copiado tal cual del modelo, con punto en Cortexa) ===== -->
   <nav>
     <div class="navlinks">
       <a href="index.html"><i class="fas fa-home" aria-hidden="true"></i> Inicio</a>
       <a href="sobremi.html"><i class="fas fa-user" aria-hidden="true"></i> Sobre Mí</a>
-      <a href="cortexa.html">Cortexa</a>
+
+      <!-- Cortexa con punto verde animado a la izquierda -->
+      <a href="cortexa.html" class="cx-live">
+        <span class="cx-dot" aria-hidden="true"></span> Cortexa
+      </a>
+
       <a href="especialidades.html"><i class="fas fa-brain" aria-hidden="true"></i> Especialidades</a>
       <a href="reservarcita.html"><i class="fas fa-calendar-check" aria-hidden="true"></i> Reservar Cita</a>
     </div>
