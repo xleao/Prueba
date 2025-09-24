@@ -297,7 +297,7 @@
 
           <!-- Línea de límites -->
           <div class="limit-row" aria-live="polite">
-            <span id="wordCounter" class="counter">0 / 250 palabras</span>
+            <span id="wordCounter" class="counter">0 / 1200 caracteres</span>
             <span class="hint-inline"><i class="fa-regular fa-lightbulb"></i> Máx. 250 palabras por mensaje y 10 mensajes por día.</span>
             <span id="dailyCounter" class="counter">Hoy: 0 / 10</span>
           </div>
@@ -361,7 +361,7 @@
     const SESSION_ID = "demo-session";
 
     // Límites
-    const WORD_LIMIT = 250;
+    const CHAR_LIMIT = 1200;   // límite por mensaje en caracteres (incluye espacios)
     const DAILY_LIMIT = 10;
 
     // UI
@@ -421,20 +421,17 @@
     };
     const setMaxedToday = ()=> writeTodayCount(DAILY_LIMIT);
 
-    // Palabras
-    const countWords = (text)=>{
-      const m = String(text).trim().match(/\b[\p{L}\p{N}'-]+\b/gu);
-      return m ? m.length : 0;
-    };
+    // === Caracteres (incluye espacios) ===
+    const countChars = (text)=> String(text ?? "").length;
 
     // Estado UI
     let isBusy = false;
     const setBusy = (b)=>{ isBusy=b; updateSendEnabled(); };
 
     const updateWordUI = ()=>{
-      const n = countWords(PROMPT.value);
-      WORD_COUNTER.textContent = `${n} / ${WORD_LIMIT} palabras`;
-      WORD_COUNTER.classList.toggle('bad', n > WORD_LIMIT);
+      const n = countChars(PROMPT.value);
+      WORD_COUNTER.textContent = `${n} / ${CHAR_LIMIT} caracteres`;
+      WORD_COUNTER.classList.toggle('bad', n > CHAR_LIMIT);
     };
 
     const updateDailyUI = ()=>{
@@ -445,9 +442,9 @@
     };
 
     const canSend = ()=>{
-      const words = countWords(PROMPT.value.trim());
+      const chars = countChars(PROMPT.value.trim());
       const used = readTodayCount();
-      return !isBusy && words > 0 && words <= WORD_LIMIT && used < DAILY_LIMIT;
+      return !isBusy && chars > 0 && chars <= CHAR_LIMIT && used < DAILY_LIMIT;
     };
 
     const updateSendEnabled = ()=>{
@@ -489,13 +486,13 @@
     // enviar
     async function handleSend(){
       const q = PROMPT.value.trim();
-      const words = countWords(q);
+      const chars = countChars(q);
       const used = readTodayCount();
 
       if(!q) return;
 
-      if(words > WORD_LIMIT){
-        softError(`Tu mensaje tiene ${words} palabras. Reduce a ${WORD_LIMIT} o menos.`);
+      if(chars > CHAR_LIMIT){
+        softError(`Tu mensaje tiene ${chars} caracteres. Reduce a ${CHAR_LIMIT} o menos.`);
         return;
       }
       if(used >= DAILY_LIMIT){
@@ -523,7 +520,7 @@
           return;
         }
 
-        if(status === 400 && data && /palabras/i.test(String(data.error || ""))){
+        if(status === 400 && data && /caracteres/i.test(String(data.error || ""))){
           softError(data.error || "Mensaje demasiado largo.");
           return;
         }
@@ -553,10 +550,11 @@
         e.preventDefault();
         if(canSend()) handleSend();
         else{
-          const words = countWords(PROMPT.value.trim());
+          const q = PROMPT.value.trim();
+          if(!q) return;
+          const chars = countChars(q);
           const used = readTodayCount();
-          if(!PROMPT.value.trim()) return;
-          if(words > WORD_LIMIT) softError(`Tu mensaje tiene ${words} palabras. Máximo permitido: ${WORD_LIMIT}.`);
+          if(chars > CHAR_LIMIT) softError(`Tu mensaje tiene ${chars} caracteres. Máximo permitido: ${CHAR_LIMIT}.`);
           else if(used >= DAILY_LIMIT) softError(`Has alcanzado el límite diario de ${DAILY_LIMIT} mensajes.`);
         }
       }
