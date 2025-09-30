@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Psicología — Demo de Portafolio</title>
+  <meta name="description" content="Demo con navegación local y categorías en archivos separados. Estilo verde pastel." />
+  <link href="https://fonts.googleapis.com/css2?family=PT+Serif:wght@400;700&family=Abril+Fatface&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      /* Paleta verde pastel */
+      --bg:#5b7f67;        /* fondo exterior (antes morado) */
+      --ink:#0e0e0e;       /* texto principal */
+      --accent:#7ec9a8;    /* acento */
+      --paper:#ffffff;     /* fondo del contenido */
+      --muted:#f4faf7;     /* fondos suaves */
+      --stroke:#e5efe8;    /* bordes suaves */
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family:"PT Serif", serif;
+      color:var(--ink);
+      background:var(--bg);
+    }
+
+    /* ====== GRID DE LAYOUT (evita solapes) ====== */
+    .layout{
+      display:grid;
+      grid-template-columns: 320px minmax(0,1fr);
+      gap:24px;                /* separación clara entre sidebar y main */
+      align-items:start;
+      min-height:100vh;
+      padding:0 16px 16px;     /* respiro lateral y abajo */
+    }
+
+    /* ====== SIDEBAR ====== */
+    aside{
+      align-self:start;
+      position:sticky; top:16px;  /* se pega sin tapar el contenido */
+      height:calc(100vh - 16px);
+      overflow:auto;
+      background:rgba(255,255,255,.08);
+      border:1px solid rgba(255,255,255,.22);
+      border-radius:16px;
+      padding:22px;
+      z-index:1;                 /* por debajo del main */
+    }
+    .brand{font-family:"Abril Fatface", cursive; font-size:28px; margin:0}
+    .brand a{color:#000;text-decoration:none}
+    .muted{opacity:.9}
+
+    nav ul{list-style:none; padding:0; margin:18px 0}
+    nav a{
+      display:block; padding:10px 12px; border-radius:12px;
+      color:#000; text-decoration:none; font-weight:700; letter-spacing:.2px
+    }
+    nav a:hover{background:#fff}
+
+    .widget{
+      margin-top:28px; background:#fff;
+      border:1px solid var(--stroke); border-radius:12px; padding:14px
+    }
+    .widget h2{font-size:16px; margin:0 0 10px; font-family:"Abril Fatface", cursive}
+    .widget ul{list-style:none; padding:0; margin:0}
+    .widget li{padding:6px 0; border-bottom:1px dashed var(--stroke)}
+    .widget li:last-child{border-bottom:0}
+    .widget a{color:#0f3d2e; text-decoration:none}
+    .widget a:hover{color:#0b2d25}
+
+    .btn{
+      display:inline-block; padding:10px 14px; border-radius:12px;
+      border:1px solid var(--accent); background:#e6f5ee; color:#0b2d25;
+      text-decoration:none; font-weight:700
+    }
+    .btn:hover{filter:brightness(1.05)}
+
+    /* ====== MAIN (cubre toda la columna con blanco) ====== */
+    main{
+      background:var(--paper);
+      border-radius:16px;
+      border:1px solid var(--stroke);
+      min-height:100vh;
+      overflow:visible;
+      z-index:2;                 /* por encima del sidebar si se cruzan */
+    }
+
+    .hero{
+      position:relative; height:320px; border-radius:16px 16px 0 0;
+      background:
+        linear-gradient(0deg,rgba(91,127,103,.45),rgba(91,127,103,.45)),
+        url("https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?q=80&w=1600&auto=format&fit=crop") center/cover no-repeat;
+      display:flex; align-items:flex-end; padding:24px; color:#fff;
+    }
+    .hero h1{
+      margin:0; font-family:"Abril Fatface", cursive;
+      font-size:38px; line-height:1.1;
+      background:rgba(0,0,0,.28); padding:10px 14px; border-radius:12px;
+      backdrop-filter: blur(2px);
+    }
+
+    .container{max-width:1100px; margin:0 auto; padding:28px 24px 32px}
+    h2{font-family:"Abril Fatface", cursive; margin:0 0 12px}
+    p{line-height:1.7}
+
+    .grid{display:grid; grid-template-columns:repeat(12,1fr); gap:22px}
+    .card{
+      grid-column:span 12; background:#fff; border:1px solid var(--stroke);
+      border-radius:16px; overflow:hidden;
+      box-shadow:0 8px 20px rgba(0,0,0,.06)
+    }
+    .card img{width:100%; display:block}
+    .card .body{padding:16px}
+    @media(min-width:900px){ .card{grid-column:span 6} }
+
+    footer{
+      padding:18px 24px; background:#fafafa;
+      border-top:1px solid var(--stroke); text-align:center; color:#333;
+      border-radius:0 0 16px 16px;
+    }
+    small a{color:inherit;text-decoration:none}
+
+    /* ====== RESPONSIVE ====== */
+    @media (max-width: 1000px){
+      .layout{
+        grid-template-columns: 1fr;
+        gap:16px;
+        padding:12px;
+      }
+      aside{
+        position:static; height:auto;
+        border:1px solid rgba(255,255,255,.22);
+      }
+      .hero{height:240px}
+    }
+  </style>
+</head>
+<body>
+  <div class="layout">
+    <!-- SIDEBAR -->
+    <aside>
+      <h1 class="brand"><a href="index.html">Psicología — Demo</a></h1>
+      <p class="muted">Portafolio estático (no afiliado al sitio original).</p>
+
+      <nav aria-label="Principal">
+        <ul>
+          <li><a href="quien-es-rodrigo.html">¿QUIEN ES RODRIGO?</a></li>
+          <li><a href="terapia.html">TERAPIA</a></li>
+          <li><a href="charlas.html">CHARLAS</a></li>
+          <li><a href="cursos-formacion.html">CURSOS Y FORMACIÓN</a></li>
+          <li><a href="contacto.html">CONTACTO</a></li>
+        </ul>
+      </nav>
+
+      <div class="widget">
+        <h2>Suscríbete</h2>
+        <p><a class="btn" href="newsletter.html">Enterarme primero</a></p>
+      </div>
+
+      <div class="widget">
+        <h2>Categorías</h2>
+        <ul>
+          <li><a href="category-condonemoji.html">#condonemoji</a> (1)</li>
+          <li><a href="category-amor.html">amor</a> (5)</li>
+          <li><a href="category-asexual.html">asexual</a> (3)</li>
+          <li><a href="category-cambio.html">cambio</a> (4)</li>
+          <li><a href="category-condon.html">condón</a> (2)</li>
+          <li><a href="category-condones.html">condones</a> (1)</li>
+          <li><a href="category-culpa.html">culpa</a> (2)</li>
+          <li><a href="category-deseo.html">deseo</a> (6)</li>
+          <li><a href="category-deseo-sexual.html">deseo sexual</a> (7)</li>
+          <li><a href="category-disfuncion-erectil.html">disfunción erectil</a> (2)</li>
+          <li><a href="category-disfuncion-sexual.html">disfunción sexual</a> (4)</li>
+          <li><a href="category-durex.html">Durex</a> (1)</li>
+          <li><a href="category-emociones-positivas.html">emociones positivas</a> (4)</li>
+          <li><a href="category-felicidad.html">felicidad</a> (11)</li>
+          <li><a href="category-infidelidad.html">infidelidad</a> (3)</li>
+          <li><a href="category-insoo-kim-berg.html">Insoo Kim Berg</a> (1)</li>
+          <li><a href="category-john-gottman.html">John Gottman</a> (1)</li>
+          <li><a href="category-leonore-tiefer.html">Leonore Tiefer</a> (1)</li>
+          <li><a href="category-lgbt.html">LGBT</a> (1)</li>
+          <li><a href="category-martin-seligman.html">Martin Seligman</a> (1)</li>
+          <li><a href="category-mentira.html">mentira</a> (2)</li>
+          <li><a href="category-mindfulness.html">mindfulness</a> (1)</li>
+          <li><a href="category-nardone.html">Nardone</a> (2)</li>
+          <li><a href="category-orientacion-sexual.html">orientación sexual</a> (2)</li>
+          <li><a href="category-pareja.html">pareja</a> (10)</li>
+          <li><a href="category-pasion.html">pasión</a> (6)</li>
+          <li><a href="category-perdon.html">perdón</a> (3)</li>
+          <li><a href="category-psicologia.html">psicología</a> (9)</li>
+          <li><a href="category-psicologia-positiva.html">psicologia positiva</a> (8)</li>
+          <li><a href="category-richard-davidson.html">richard davidson</a> (1)</li>
+          <li><a href="category-sexo.html">sexo</a> (12)</li>
+          <li><a href="category-sexo-seguro.html">sexo seguro</a> (1)</li>
+          <li><a href="category-sida.html">sida</a> (1)</li>
+          <li><a href="category-sin-categoria.html">Sin categoría</a> (21)</li>
+          <li><a href="category-soluciones.html">Soluciones</a> (1)</li>
+          <li><a href="category-steve-de-shazer.html">Steve de Shazer</a> (1)</li>
+          <li><a href="category-terapia-breve-centrada-en-soluciones.html">Terapia breve centrada en soluciones</a> (1)</li>
+          <li><a href="category-terapia-breve-estrategica.html">Terapia Breve Estrategica</a> (2)</li>
+          <li><a href="category-terapia-familiar-breve.html">Terapia Familiar Breve</a> (1)</li>
+          <li><a href="category-the-new-view-campaign.html">the new view campaign</a> (2)</li>
+          <li><a href="category-tiefer.html">Tiefer</a> (2)</li>
+          <li><a href="category-verdad.html">verdad</a> (2)</li>
+          <li><a href="category-vih.html">vih</a> (1)</li>
+        </ul>
+      </div>
+    </aside>
+
+    <!-- MAIN -->
+    <main>
+      <section class="hero" aria-label="Imagen de cabecera">
+        <h1>Magíster en Psicología Clínica · Sexualidad Humana</h1>
+      </section>
+
+      <div class="container">
+        <h2>Bienvenido/a</h2>
+        <p>
+          Esta es una <strong>demo de portafolio</strong> con estilo similar al sitio de referencia.
+          Todo navega a archivos locales (no redirige afuera). Crea los HTML enlazados para que funcione completo.
+        </p>
+
+        <div class="grid" style="margin-top:18px">
+          <!-- Tarjetas con accesos rápidos -->
+          <article class="card">
+            <img src="https://www.mentesabiertaspsicologia.com/images/jch-optimize/ng/images_imagen__91.webp" alt="Terapia y consulta"/>
+            <div class="body">
+              <h3 style="margin-top:0">Terapia</h3>
+              <p>Atención individual y de pareja con enfoque basado en evidencia.</p>
+              <a class="btn" href="terapia.html">Ver terapia</a>
+            </div>
+          </article>
+
+          <article class="card">
+            <img src="https://images.unsplash.com/photo-1517486808906-6ca8b3f04846?q=80&w=1600&auto=format&fit=crop" alt="Charlas y talleres"/>
+            <div class="body">
+              <h3 style="margin-top:0">Charlas</h3>
+              <p>Charlas para organizaciones y comunidades sobre salud mental y vínculos.</p>
+              <a class="btn" href="charlas.html">Ver charlas</a>
+            </div>
+          </article>
+        </div>
+
+        <hr style="margin:28px 0; border:none; border-top:1px solid var(--stroke)">
+
+        <section>
+          <h2>Accesos rápidos</h2>
+          <p style="margin:10px 0 16px">
+            <a class="btn" href="quien-es-rodrigo.html">¿Quién es Rodrigo?</a>
+            <a class="btn" href="cursos-formacion.html">Cursos y formación</a>
+            <a class="btn" href="blog.html">Blog</a>
+            <a class="btn" href="contacto.html">Contacto</a>
+          </p>
+        </section>
+      </div>
+
+      <footer>
+        <small>© 2025 Demo de Portafolio — <a href="index.html">Inicio</a></small>
+      </footer>
+    </main>
+  </div>
+</body>
+</html>
